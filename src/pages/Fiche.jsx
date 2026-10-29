@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import {
-  CANAUX, DEMANDES, PAYS, STATUTS, TYPES_BOUTIQUE, TYPES_BROUILLON, dateLongue, demander, jourCourt,
-  notesSansSources, pastille, q, sourcesDe, supabase, useCharge,
+  CANAUX, DEMANDES, PAYS, STATUTS, TYPES_BOUTIQUE, TYPES_BROUILLON, adresseComplete, dateLongue, demander,
+  emailValide, jourCourt, notesSansSources, pastille, q, sourcesDe, supabase, useCharge,
 } from '../lib.js'
 import { Cadenas, Entete, Erreur, Retour, Score } from '../ui.jsx'
+import FormBoutique from '../FormBoutique.jsx'
 
 const SANS_ENVOI = ['bloque', 'client', 'refus']
 const EN_COURS = ['en_attente', 'en_cours']
@@ -48,7 +49,7 @@ function Infos({ b }) {
     ['Instagram', b.instagram && <a href={`https://instagram.com/${b.instagram.replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '')}`} target="_blank" rel="noreferrer noopener">{b.instagram}</a>],
     ['Marques vendues', b.marques?.join(', ')],
     ['Contact', b.contact_nom],
-    ['Adresse', [b.adresse, [b.code_postal, b.ville].filter(Boolean).join(' ')].filter(Boolean).join(', ')],
+    ['Adresse', adresseComplete(b)],
     ['Angle', b.angle],
   ].filter(([, v]) => v)
   if (!lignes.length) return <p className="sous" style={{ margin: 0 }}>Rien de connu pour l’instant.</p>
@@ -103,6 +104,7 @@ export default function Fiche({ id }) {
   const [note, setNote] = useState('')
   const [erreur, setErreur] = useState(null)
   const [enCours, setEnCours] = useState(false)
+  const [edition, setEdition] = useState(false)
   const { data, error, recharger } = useCharge(() => charger(id), [id], { toutes: 5000 })
 
   if (error && !data) return <div className="page"><Entete actif="prospects" /><Erreur e={error} /></div>
@@ -144,7 +146,7 @@ export default function Fiche({ id }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0, flex: '1 1 300px' }}>
           <h1 className="titre-boutique">{b.nom}</h1>
           <span className="sous">
-            {[TYPES_BOUTIQUE[b.type], b.adresse ? `${b.adresse}, ${b.ville || ''}` : b.ville, b.pays !== 'FR' && PAYS[b.pays],
+            {[TYPES_BOUTIQUE[b.type], adresseComplete(b), b.pays !== 'FR' && PAYS[b.pays],
               b.nb_boutiques > 1 ? `${b.nb_boutiques} boutiques` : '1 boutique'].filter(Boolean).join(' · ')}
           </span>
         </div>
@@ -159,6 +161,9 @@ export default function Fiche({ id }) {
         </div>
       </section>
 
+      {b.email && !emailValide(b.email) && (
+        <div className="avis attention">L’adresse e-mail « {b.email} » est incomplète : aucun e-mail ne pourra partir. <button className="btn contour" style={{ height: 32, marginLeft: 8 }} onClick={() => setEdition(true)}>La corriger</button></div>
+      )}
       {b.statut === 'bloque' && (
         <div className="avis erreur rangee" style={{ gap: 10 }}>
           <Cadenas /><span>Bloquée : {b.bloque_raison || 'raison inconnue'}. Aucun e-mail ne peut partir vers cette boutique.</span>
@@ -185,11 +190,14 @@ export default function Fiche({ id }) {
                 </span>
               )}
             </div>
-            {b.statut !== 'bloque' && !attente.some((d) => d.type === 'enrichir') && (
-              <button className="btn contour" style={{ alignSelf: 'flex-start' }} onClick={enrichir} disabled={enCours}>
-                {b.enrichi_le ? 'Revérifier avec Claude' : 'Compléter avec Claude'}
-              </button>
-            )}
+            <div className="rangee">
+              <button className="btn contour" onClick={() => setEdition(true)}>Modifier la fiche</button>
+              {b.statut !== 'bloque' && !attente.some((d) => d.type === 'enrichir') && (
+                <button className="btn contour" onClick={enrichir} disabled={enCours}>
+                  {b.enrichi_le ? 'Revérifier avec Claude' : 'Compléter avec Claude'}
+                </button>
+              )}
+            </div>
             {notes && <details><summary className="lbl" style={{ cursor: 'pointer' }}>Notes</summary><p style={{ whiteSpace: 'pre-wrap', fontSize: 14, color: 'var(--texte-3)' }}>{notes}</p></details>}
           </section>
 
@@ -239,6 +247,7 @@ export default function Fiche({ id }) {
           </form>
         </aside>
       </div>
+      {edition && <FormBoutique boutique={b} onFermer={() => setEdition(false)} onFini={() => { setEdition(false); recharger() }} />}
     </div>
   )
 }

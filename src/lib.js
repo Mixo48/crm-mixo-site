@@ -106,6 +106,18 @@ export const metaBoutique = (b) => {
   return [TYPES_BOUTIQUE[b.type], b.ville, b.pays && b.pays !== 'FR' ? PAYS[b.pays] : null, n].filter(Boolean).join(' · ')
 }
 
+// L'enrichissement écrit parfois l'adresse entière (« 29 Cr Victor Hugo, 84300 Cavaillon, France ») :
+// on n'y rajoute la ville que si elle n'y est pas déjà.
+export const adresseComplete = (b) => {
+  const a = (b?.adresse || '').replace(/,\s*(France|Belgique|Suisse|Espagne|Portugal)\s*$/i, '').trim()
+  const cpVille = [b?.code_postal, b?.ville].filter(Boolean).join(' ')
+  if (!a) return cpVille
+  if (b?.ville && a.toLowerCase().includes(b.ville.toLowerCase())) return a
+  return [a, cpVille].filter(Boolean).join(', ')
+}
+
+export const emailValide = (e) => /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(e || '')
+
 // Score 0–100 → 1 à 5 pastilles allumées (0 si pas encore de score).
 export const pastillesScore = (score) => (score == null ? 0 : Math.max(1, Math.min(5, Math.ceil(score / 20))))
 
