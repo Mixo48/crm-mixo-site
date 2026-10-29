@@ -3,6 +3,9 @@
 {
   "name": "crm-mixo-site",
   "compatibility_date": "2026-10-01",
+  // Adresse publique en ….workers.dev ; pas d'adresse de prévisualisation par branche.
+  "workers_dev": true,
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
