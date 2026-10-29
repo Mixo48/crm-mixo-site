@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Envoi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;family=Syne:wght@700;800&amp;family=Big+Shoulders+Display:wght@700;800&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;display=swap">
+<style>
+body{margin:0;background:#1A1A1A;color:#F4F4F1;font-family:'Urbanist',system-ui,sans-serif}
+a{color:#C8F56E}a:hover{color:#E2FFA6}
+*{box-sizing:border-box}
+.navlink{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;border:1px solid #4A4A47;background:transparent;color:#F4F4F1;text-decoration:none;font-size:15px;font-family:inherit;cursor:pointer}
+.navlink:hover{background:#2E2E2C;color:#F4F4F1}
+.navlink.on{background:#F4F4F1;color:#141414;border-color:#F4F4F1}
+.chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#454542;color:#D9D9D4;font-size:13px}
+.btn{height:48px;padding:0 22px;border-radius:999px;border:0;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:22px;background:#2E2E2C;border:1px solid transparent;cursor:pointer;width:100%;text-align:left;font-family:inherit;color:#F4F4F1}
+.row:hover{border-color:#5A5A55}
+</style>
+</helmet>
+<div style="max-width: 1440px; margin: 0 auto; padding: 32px max(16px, 3vw) 64px; display: flex; flex-direction: column; gap: 32px">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <img src="../assets/mixo-logo-blanc.png" alt="Le Mixologue" style="height: 40px; width: auto">
+      <span style="font-size: 13px; letter-spacing: .3em; color: #A9A9A3">CRM</span>
+    </div>
+    <nav aria-label="Navigation principale" style="display: flex; flex-wrap: wrap; gap: 8px">
+      <a class="navlink" href="Main.dc.html">Ta matinée</a>
+      <a class="navlink" href="Prospects.dc.html">Prospects</a>
+      <a class="navlink on" href="Envoi.dc.html">Envois</a>
+      <a class="navlink" href="Fiche.dc.html">Réponses</a>
+    </nav>
+  </header>
+
+  <section style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 40px">
+    <h1 style="margin: 0; font-size: 60px; line-height: 1; font-family: {{titleFamily}}; font-weight: {{titleWeight}}; letter-spacing: {{titleSpacing}}">ENV<span style="color: {{accent}}">O</span>I</h1>
+    <p style="margin: 0; max-width: 60ch; color: #A9A9A3; font-size: 16px">Relis chaque e-mail, coche ceux qui partent. Ils partent de ta boîte, un par un, espacés dans le temps.</p>
+  </section>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+    <section aria-label="Brouillons à valider" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 4px 6px">
+        <h2 style="margin: 0; font-size: 24px; font-weight: 500">Brouillons</h2>
+        <button class="navlink" type="button" onClick="{{toggleAll}}">{{allLabel}}</button>
+      </div>
+      <sc-for list="{{drafts}}" as="d" hint-placeholder-count="5">
+        <div class="row" style="{{d.rowStyle}}">
+          <input type="checkbox" id="{{d.id}}" checked="{{d.checked}}" onChange="{{d.toggle}}" style="width: 22px; height: 22px; accent-color: {{accent}}; flex: none">
+          <label for="{{d.id}}" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sélectionner {{d.name}}</label>
+          <button type="button" onClick="{{d.open}}" style="flex: 1; min-width: 0; background: transparent; border: 0; color: inherit; font-family: inherit; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 2px; padding: 0">
+            <span style="font-size: 17px; font-weight: 600">{{d.name}}</span>
+            <span style="font-size: 14px; color: #A9A9A3">{{d.meta}}</span>
+          </button>
+          <span class="chip">{{d.kind}}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section aria-label="Aperçu de l’e-mail" style="flex: 999 1 560px; min-width: 0; background: #EDEDE9; color: #141414; border-radius: 32px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+        <h2 style="margin: 0; font-size: 26px; font-weight: 500">Aperçu</h2>
+        <div style="display: flex; gap: 8px">
+          <button class="btn" type="button" style="height: 44px; background: #FFFFFF; color: #141414; border: 1px solid #CFCFC9">Modifier</button>
+          <button class="btn" type="button" style="height: 44px; background: #141414; color: #F4F4F1">Réécrire avec Claude</button>
+        </div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 22px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px">
+        <dl style="margin: 0; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; padding-bottom: 14px; border-bottom: 1px solid #E2E2DC">
+          <dt style="color: #5E5E58">De</dt><dd style="margin: 0">Nathan Gillet &lt;nathan@le-mixologue.com&gt;</dd>
+          <dt style="color: #5E5E58">À</dt><dd style="margin: 0; overflow-wrap: anywhere">{{cur.to}}</dd>
+          <dt style="color: #5E5E58">Objet</dt><dd style="margin: 0; font-weight: 600">{{cur.subject}}</dd>
+        </dl>
+        <p style="margin: 0; font-size: 15px; line-height: 1.65; white-space: pre-line; font-family: inherit">{{cur.body}}</p>
+        <p style="margin: 0; padding-top: 12px; border-top: 1px solid #E2E2DC; font-size: 13px; color: #5E5E58">Répondez STOP pour ne plus recevoir nos messages.</p>
+      </div>
+      <span style="font-size: 13px; color: #5E5E58">Texte simple, sans image ni mise en page : il arrive comme un e-mail écrit à la main.</span>
+    </section>
+  </div>
+
+  <div style="position: sticky; bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: #F4F4F1; color: #141414; border-radius: 999px; padding: 8px 8px 8px 26px">
+    <strong style="font-size: 16px">{{count}} sélectionnés</strong>
+    <span style="flex: 1 1 240px; min-width: 0; font-size: 14px; color: #4A4A45">Un e-mail toutes les 2 minutes, fini vers {{endTime}} · plafond OVH d’environ 200 par heure</span>
+    <button class="btn" type="button" style="background: {{accent}}; color: #141414">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8l12-5-5 12-2-5-5-2z"/></svg>
+      Envoyer la sélection
+    </button>
+  </div>
+  <p style="margin: 0; font-size: 13px; color: #8C8C86">Boutiques et adresses : données d’exemple pour la maquette.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"titleFont":{"editor":"enum","options":["Unbounded","Syne","Big Shoulders Display","Bricolage Grotesque"],"default":"Unbounded"},"accent":{"editor":"color","default":"#C8F56E","options":["#C8F56E","#8EEAD9","#F2A65E"]},"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: 0, picked: [true, true, true, false, true] };
+  }
+  renderVals() {
+    const TF = { 'Unbounded': ["'Unbounded', sans-serif", 600, '.01em'], 'Syne': ["'Syne', sans-serif", 800, '.01em'], 'Big Shoulders Display': ["'Big Shoulders Display', sans-serif", 800, '.03em'], 'Bricolage Grotesque': ["'Bricolage Grotesque', sans-serif", 700, '0'] };
+    const tf = TF[this.props.titleFont ?? 'Unbounded'] || TF['Unbounded'];
+    const accent = this.props.accent ?? '#C8F56E';
+    const base = (angle) => 'Bonjour,\n\nJe suis Nathan, de Le Mixologue, marque belge d’e-liquides.\n\n' + angle + '\n\nNotre concept : 88 saveurs qui se mélangent toutes entre elles, pour que chaque client reparte avec son propre mix.\n\nJe peux vous envoyer le catalogue et le récap des prix. Auriez-vous 10 minutes cette semaine pour un appel ?\n\nNathan Gillet\nLe Mixologue';
+    const data = [
+      { name: 'Vapote & Cie', meta: 'Lyon 3e · score 82', kind: 'Premier e-mail', to: 'contact@vapote-et-cie.fr', subject: 'Le bar à saveurs pour Vapote & Cie', body: base('J’ai vu que vous travaillez déjà avec Liquideo et Alfaliquid. Côté marge, un 60 ml vous revient à 3,60 € sans nicotine et se revend autour de 17,90 €.') },
+      { name: 'Le Nuage Bleu', meta: 'Bordeaux · score 71', kind: 'Relance', to: 'bonjour@lenuagebleu.fr', subject: 'Re : le bar à saveurs pour Le Nuage Bleu', body: base('Je me permets de revenir vers vous suite à mon e-mail du 21/10. Avec un rayon DIY comme le vôtre, aucune saveur ne dort : celles qui tournent moins entrent dans les mix.') },
+      { name: 'Smoke Free 59', meta: 'Lille · 5 boutiques · score 68', kind: 'Premier e-mail', to: 'achats@smokefree59.fr', subject: 'Le bar à saveurs dans vos 5 boutiques', body: base('Pour un réseau de cinq boutiques, la version Découverte tient sur 1 m² avec nos 25 meilleures ventes.') },
+      { name: 'Atelier Vapeur', meta: 'Nantes · score 54', kind: 'Premier e-mail', to: 'atelier.vapeur@gmail.com', subject: 'Le bar à saveurs pour l’Atelier Vapeur', body: base('J’ai découvert votre boutique sur Instagram. Le mix à la demande en boutique fidélise : le client ne repart jamais sans son mix.') },
+      { name: 'Vapo Center Metz', meta: 'Metz · 3 boutiques · score 63', kind: 'Relance', to: 'contact@vapocenter-metz.fr', subject: 'Re : délais de livraison vers Metz', body: base('Suite à votre question sur les délais : je vous confirme les conditions de livraison dans le récap joint à ma prochaine réponse.') }
+    ];
+    const picked = this.state.picked;
+    const count = picked.filter(Boolean).length;
+    const now = new Date(2026, 9, 28, 9, 0);
+    const end = new Date(now.getTime() + Math.max(0, count - 1) * 2 * 60000);
+    const endTime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
+    const allOn = count === data.length;
+    const drafts = data.map((d, i) => ({
+      ...d,
+      id: 'sel-' + i,
+      checked: picked[i],
+      rowStyle: i === this.state.open ? 'border-color:' + accent : '',
+      toggle: () => { const p = picked.slice(); p[i] = !p[i]; this.setState({ picked: p }); },
+      open: () => this.setState({ open: i })
+    }));
+    return {
+      titleFamily: tf[0], titleWeight: tf[1], titleSpacing: tf[2], accent, drafts, count, endTime,
+      cur: data[this.state.open],
+      allLabel: allOn ? 'Tout décocher' : 'Tout cocher',
+      toggleAll: () => this.setState({ picked: data.map(() => !allOn) })
+    };
+  }
+}
+</script>
+</body>
+</html>

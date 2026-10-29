@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Fiche boutique</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;family=Syne:wght@700;800&amp;family=Big+Shoulders+Display:wght@700;800&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;display=swap">
+<style>
+body{margin:0;background:#1A1A1A;color:#F4F4F1;font-family:'Urbanist',system-ui,sans-serif}
+a{color:#C8F56E}a:hover{color:#E2FFA6}
+*{box-sizing:border-box}
+.navlink{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;border:1px solid #4A4A47;background:transparent;color:#F4F4F1;text-decoration:none;font-size:15px;font-family:inherit;cursor:pointer}
+.navlink:hover{background:#2E2E2C;color:#F4F4F1}
+.navlink.on{background:#F4F4F1;color:#141414;border-color:#F4F4F1}
+.chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#454542;color:#D9D9D4;font-size:13px}
+.dots{display:inline-flex;gap:4px;padding:5px 7px;border-radius:999px;border:1px solid #4A4A47}
+.dot{width:12px;height:12px;border-radius:50%}
+.iconbtn{width:44px;height:44px;border-radius:50%;border:1px solid #4A4A47;background:transparent;color:#F4F4F1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;text-decoration:none}
+.lbl{font-size:12px;color:#A9A9A3}
+.btn{height:44px;padding:0 18px;border-radius:999px;border:0;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+</style>
+</helmet>
+<div style="max-width: 1440px; margin: 0 auto; padding: 32px max(16px, 3vw) 64px; display: flex; flex-direction: column; gap: 36px">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <img src="../assets/mixo-logo-blanc.png" alt="Le Mixologue" style="height: 40px; width: auto">
+      <span style="font-size: 13px; letter-spacing: .3em; color: #A9A9A3">CRM</span>
+    </div>
+    <nav aria-label="Navigation principale" style="display: flex; flex-wrap: wrap; gap: 8px">
+      <a class="navlink" href="Main.dc.html">Ta matinée</a>
+      <a class="navlink" href="Prospects.dc.html">Prospects</a>
+      <a class="navlink" href="Envoi.dc.html">Envois</a>
+      <a class="navlink on" href="Fiche.dc.html">Réponses</a>
+    </nav>
+  </header>
+
+  <section style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px">
+    <a class="iconbtn" href="Prospects.dc.html" aria-label="Retour aux prospects">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
+    </a>
+    <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+      <h1 style="margin: 0; font-size: 50px; line-height: 1.05; font-family: {{titleFamily}}; font-weight: {{titleWeight}}; letter-spacing: {{titleSpacing}}">Vap’Hôtel Rennes</h1>
+      <span style="color: #A9A9A3; font-size: 16px">Vape shop · 12 rue de la Soif, Rennes · 1 boutique</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-left: auto">
+      <span class="dots"><span class="dot" style="background:#F0938F"></span><span class="dot" style="background:#F2A65E"></span><span class="dot" style="background:#F2D46B"></span><span class="dot" style="background:#B6E35A"></span><span class="dot" style="background:#4A4A47"></span></span>
+      <span style="color: #A9A9A3; font-size: 14px">Score 77</span>
+      <label for="statut" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Statut</label>
+      <select id="statut" style="height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: {{accent}}; color: #141414; font-family: inherit; font-size: 15px; font-weight: 600">
+        <option>Intéressé</option><option>À contacter</option><option>Contacté</option><option>Relancé</option><option>Échantillon envoyé</option><option>Client</option><option>Refus</option>
+      </select>
+    </div>
+  </section>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+    <main style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+
+      <section aria-labelledby="t-infos" style="background: #2E2E2C; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <h2 id="t-infos" style="margin: 0; font-size: 24px; font-weight: 500">Ce que Claude a trouvé</h2>
+          <span class="chip" style="background: #3B4A1E; color: {{accent}}">Vérifiée le 27/10</span>
+        </div>
+        <dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px 24px">
+          <sc-for list="{{infos}}" as="i" hint-placeholder-count="6">
+            <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+              <dt class="lbl">{{i.k}}</dt>
+              <dd style="margin: 0; font-size: 16px; overflow-wrap: anywhere">{{i.v}}</dd>
+            </div>
+          </sc-for>
+        </dl>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+          <span class="lbl">Sources</span><span class="chip">Site de la boutique</span><span class="chip">Instagram</span><span class="chip">Annuaire</span>
+          <span class="chip" style="background: #2B3A2A; color: #9FE58C">Pas cliente · jamais contactée avant le 21/10</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="t-hist" style="display: flex; flex-direction: column; gap: 16px">
+        <h2 id="t-hist" style="margin: 0; font-size: 24px; font-weight: 500">Échanges</h2>
+        <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+          <sc-for list="{{history}}" as="h" hint-placeholder-count="3">
+            <li style="display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 14px">
+              <span style="font-size: 14px; color: #A9A9A3; padding-top: 18px">{{h.date}}</span>
+              <div style="background: #2E2E2C; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px"><strong style="font-size: 16px; font-weight: 600">{{h.title}}</strong><span class="chip">{{h.channel}}</span></div>
+                <span style="font-size: 15px; color: #D9D9D4; line-height: 1.5">{{h.text}}</span>
+              </div>
+            </li>
+          </sc-for>
+        </ol>
+      </section>
+    </main>
+
+    <aside aria-label="Résumé de Claude" style="flex: 1 1 340px; min-width: 0; background: #EDEDE9; color: #141414; border-radius: 32px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 26px; font-weight: 500">Résumé</h2>
+      <div style="background: #FFFFFF; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; color: #5E5E58">Réponse du 24/10, lue par Claude</span>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5">Le gérant veut le <b>récap prix</b> et des <b>échantillons de 5 saveurs fruitées</b>. Il vend surtout du 60 ml et cherche une marque française pour remplacer une gamme arrêtée.</p>
+      </div>
+      <div style="background: {{accent}}; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 13px; color: #3A4A16">Prochaine action</span>
+        <p style="margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4">Envoyer le récap prix et proposer 5 échantillons</p>
+        <a class="btn" href="Envoi.dc.html" style="background: #141414; color: #F4F4F1">Préparer la réponse</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label for="note" style="font-size: 14px; font-weight: 600">Note rapide</label>
+        <textarea id="note" rows="3" placeholder="Ex. : appelé, intéressé, rappeler le 21/11" style="border-radius: 18px; border: 1px solid #CFCFC9; background: #FFFFFF; padding: 12px 14px; font-family: inherit; font-size: 15px; resize: vertical"></textarea>
+        <span style="font-size: 13px; color: #5E5E58">Claude met à jour le statut et l’historique à partir de ta note.</span>
+        <button class="btn" type="button" style="background: #141414; color: #F4F4F1; align-self: flex-start">Enregistrer la note</button>
+      </div>
+    </aside>
+  </div>
+  <p style="margin: 0; font-size: 13px; color: #8C8C86">Boutique, adresse et échanges : données d’exemple pour la maquette.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"titleFont":{"editor":"enum","options":["Unbounded","Syne","Big Shoulders Display","Bricolage Grotesque"],"default":"Unbounded"},"accent":{"editor":"color","default":"#C8F56E","options":["#C8F56E","#8EEAD9","#F2A65E"]},"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const TF = { 'Unbounded': ["'Unbounded', sans-serif", 600, '.01em'], 'Syne': ["'Syne', sans-serif", 800, '.01em'], 'Big Shoulders Display': ["'Big Shoulders Display', sans-serif", 800, '.03em'], 'Bricolage Grotesque': ["'Bricolage Grotesque', sans-serif", 700, '0'] };
+    const tf = TF[this.props.titleFont ?? 'Unbounded'] || TF['Unbounded'];
+    return {
+      titleFamily: tf[0], titleWeight: tf[1], titleSpacing: tf[2], 
+      accent: this.props.accent ?? '#C8F56E',
+      infos: [
+        { k: 'E-mail', v: 'contact@vaphotel-rennes.fr' },
+        { k: 'Téléphone', v: '02 99 00 00 00' },
+        { k: 'Instagram', v: '@vaphotel.rennes · actif cette semaine' },
+        { k: 'Marques vendues', v: 'Le French Liquide, Fuu' },
+        { k: 'Formats', v: '10 ml, 60 ml, concentrés 30 ml' },
+        { k: 'Contact', v: 'Kévin, gérant' }
+      ],
+      history: [
+        { date: '21/10', title: 'Premier e-mail envoyé', channel: 'E-mail', text: 'Présentation du bar à saveurs et de la marge sur le 60 ml.' },
+        { date: '24/10', title: 'Réponse reçue', channel: 'E-mail', text: 'Intéressé. Demande le récap prix et des échantillons.' },
+        { date: '27/10', title: 'Fiche vérifiée', channel: 'Claude', text: 'Infos mises à jour depuis le site et Instagram.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

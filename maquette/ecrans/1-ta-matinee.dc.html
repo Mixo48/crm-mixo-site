@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Ta matinée</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;family=Syne:wght@700;800&amp;family=Big+Shoulders+Display:wght@700;800&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;display=swap">
+<style>
+body{margin:0;background:#1A1A1A;color:#F4F4F1;font-family:'Urbanist',system-ui,sans-serif}
+a{color:#C8F56E}a:hover{color:#E2FFA6}
+*{box-sizing:border-box}
+.navlink{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;border:1px solid #4A4A47;background:transparent;color:#F4F4F1;text-decoration:none;font-size:15px;font-family:inherit;cursor:pointer}
+.navlink:hover{background:#2E2E2C;color:#F4F4F1}
+.navlink.on{background:#F4F4F1;color:#141414;border-color:#F4F4F1}
+.chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:#454542;color:#D9D9D4;font-size:13px}
+.dots{display:inline-flex;gap:4px;padding:5px 7px;border-radius:999px;border:1px solid #4A4A47}
+.dot{width:12px;height:12px;border-radius:50%;background:#4A4A47}
+.iconbtn{width:44px;height:44px;border-radius:50%;border:1px solid #4A4A47;background:transparent;color:#F4F4F1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.iconbtn:hover{background:#2E2E2C}
+.card{position:relative;background:#2E2E2C;border-radius:28px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.notch{position:absolute;top:-6px;right:-6px;box-shadow:0 0 0 8px #1A1A1A;background:#1A1A1A}
+.lbl{font-size:12px;color:#A9A9A3}
+.btn{height:44px;padding:0 18px;border-radius:999px;border:0;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+</style>
+</helmet>
+<div style="max-width: 1440px; margin: 0 auto; padding: 32px max(16px, 3vw) 64px; display: flex; flex-direction: column; gap: 40px">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <img src="../assets/mixo-logo-blanc.png" alt="Le Mixologue" style="height: 40px; width: auto">
+      <span style="font-size: 13px; letter-spacing: .3em; color: #A9A9A3">CRM</span>
+    </div>
+    <nav aria-label="Navigation principale" style="display: flex; flex-wrap: wrap; gap: 8px">
+      <a class="navlink on" href="Main.dc.html">Ta matinée</a>
+      <a class="navlink" href="Prospects.dc.html">Prospects</a>
+      <a class="navlink" href="Envoi.dc.html">Envois</a>
+      <a class="navlink" href="Fiche.dc.html">Réponses</a>
+    </nav>
+    <div style="flex: 1 1 380px; min-width: 0; display: flex; align-items: center; gap: 12px; background: #F4F4F1; color: #141414; border-radius: 999px; padding: 6px 6px 6px 22px">
+      <span style="font-weight: 600; white-space: nowrap">Brief de Claude</span>
+      <div style="flex: 1; min-width: 0; height: 32px; border-radius: 999px; background: {{accent}}; display: flex; align-items: center; padding: 0 14px; font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">Prêt à 07:50 · 18 brouillons · 4 réponses · 3 relances</div>
+      <button class="iconbtn" aria-label="Ouvrir le brief" style="border-color: #CFCFC9; color: #141414">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 56px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span class="lbl" style="font-size: 14px">Mercredi 28 octobre</span>
+      <h1 style="margin: 0; font-size: 60px; line-height: 1; font-family: {{titleFamily}}; font-weight: {{titleWeight}}; letter-spacing: {{titleSpacing}}">TA MATIN<span style="color: {{accent}}">É</span>E</h1>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 40px">
+      <div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 52px; font-weight: 400">18</span><span style="color: #A9A9A3; font-size: 18px">à valider</span></div>
+      <div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 52px; font-weight: 400">4</span><span style="color: #A9A9A3; font-size: 18px">réponses</span><span style="font-size: 11px; background: {{accent}}; color: #141414; border-radius: 999px; padding: 2px 7px; align-self: flex-start">+2</span></div>
+      <div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 52px; font-weight: 400">3</span><span style="color: #A9A9A3; font-size: 18px">relances</span></div>
+      <div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 52px; font-weight: 400">2</span><span style="color: #A9A9A3; font-size: 18px">bloqués, déjà clients</span></div>
+    </div>
+  </section>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+    <main style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 40px">
+
+      <section style="display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
+          <h2 style="margin: 0; font-size: 30px; font-weight: 500">À valider</h2>
+          <span style="text-decoration: underline; text-underline-offset: 5px">18 brouillons</span>
+          <div role="group" aria-label="Filtrer par intérêt" style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+              <button class="navlink" aria-pressed="{{f.on}}" style="{{f.style}}" onClick="{{f.pick}}">{{f.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px">
+          <article class="card" style="background: {{accent}}; color: #141414">
+            <a class="iconbtn notch" href="Fiche.dc.html" aria-label="Ouvrir la fiche Vapote et Cie" style="color: #F4F4F1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg>
+            </a>
+            <div style="display: flex; flex-direction: column; gap: 2px; padding-right: 48px">
+              <h3 style="margin: 0; font-size: 22px; font-weight: 600">Vapote &amp; Cie</h3>
+              <span style="font-size: 14px; color: #3A4A16">Vape shop · Lyon 3e · 2 boutiques</span>
+            </div>
+            <p style="margin: 0; font-size: 14px; line-height: 1.45">Vend déjà Liquideo et Alfaliquid. Angle : la marge du 60 ml.</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 8px">
+              <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #3A4A16">Source</span><span class="chip" style="background: rgba(20,20,20,.12); color: #141414">Annuaire</span></div>
+              <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end"><span style="font-size: 12px; color: #3A4A16">Score 82</span><span class="dots" style="border-color: rgba(20,20,20,.2); background: #F4F4F1"><span class="dot" style="background:#F0938F"></span><span class="dot" style="background:#F2A65E"></span><span class="dot" style="background:#F2D46B"></span><span class="dot" style="background:#B6E35A"></span><span class="dot" style="background:#7FD96B"></span></span></div>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <a class="btn" href="Envoi.dc.html" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; background: #141414; color: #F4F4F1; text-decoration: none">Relire et envoyer</a>
+            </div>
+          </article>
+
+          <sc-for list="{{leads}}" as="l" hint-placeholder-count="3">
+            <article class="card">
+              <a class="iconbtn notch" href="Fiche.dc.html" aria-label="Ouvrir la fiche">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12L12 4M5 4h7v7"/></svg>
+              </a>
+              <div style="display: flex; flex-direction: column; gap: 2px; padding-right: 48px">
+                <h3 style="margin: 0; font-size: 22px; font-weight: 500">{{l.name}}</h3>
+                <span style="font-size: 14px; color: #A9A9A3">{{l.meta}}</span>
+              </div>
+              <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #D9D9D4">{{l.note}}</p>
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 8px">
+                <div style="display: flex; flex-direction: column; gap: 6px"><span class="lbl">Source</span><span class="chip">{{l.source}}</span></div>
+                <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end"><span class="lbl">Score {{l.score}}</span>
+                  <span class="dots"><sc-for list="{{l.dots}}" as="d" hint-placeholder-count="5"><span class="dot" style="background: {{d}}"></span></sc-for></span>
+                </div>
+              </div>
+              <a class="btn" href="Envoi.dc.html" style="display: inline-flex; align-items: center; justify-content: center; background: #454542; color: #F4F4F1; text-decoration: none">Relire et envoyer</a>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; align-items: center; gap: 20px">
+          <h2 style="margin: 0; font-size: 30px; font-weight: 500">Réponses</h2>
+          <span style="text-decoration: underline; text-underline-offset: 5px">4 lues par Claude</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <sc-for list="{{replies}}" as="r" hint-placeholder-count="4">
+            <a href="Fiche.dc.html" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: #2E2E2C; border-radius: 22px; padding: 16px 18px; color: #F4F4F1; text-decoration: none">
+              <span style="flex: 0 0 180px; font-weight: 600; font-size: 17px">{{r.shop}}</span>
+              <span style="flex: 1 1 320px; min-width: 0; color: #D9D9D4; font-size: 15px">{{r.summary}}</span>
+              <span style="height: 32px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; {{r.pill}}">{{r.status}}</span>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </main>
+
+    <aside aria-label="Brief de Claude" style="flex: 1 1 320px; min-width: 0; background: #EDEDE9; color: #141414; border-radius: 32px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <span class="iconbtn" aria-hidden="true" style="background: #141414; color: {{accent}}; border: 0">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2v3M9 13v3M2 9h3M13 9h3M4 4l2 2M12 12l2 2M4 14l2-2M12 6l2-2"/></svg>
+        </span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 500; flex: 1">Brief de Claude</h2>
+      </div>
+      <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{brief}}" as="b" hint-placeholder-count="5">
+          <li style="display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: start">
+            <span style="font-size: 13px; color: #5E5E58; padding-top: 14px">{{b.time}}</span>
+            <div style="background: {{b.bg}}; border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+              <strong style="font-size: 15px; font-weight: 600">{{b.title}}</strong>
+              <span style="font-size: 14px; color: #3D3D38; line-height: 1.45">{{b.text}}</span>
+            </div>
+          </li>
+        </sc-for>
+      </ol>
+      <a href="Envoi.dc.html" class="btn" style="display: inline-flex; align-items: center; justify-content: center; background: #141414; color: #F4F4F1; text-decoration: none">Valider les 18 brouillons</a>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"titleFont":{"editor":"enum","options":["Unbounded","Syne","Big Shoulders Display","Bricolage Grotesque"],"default":"Unbounded"},"accent":{"editor":"color","default":"#C8F56E","options":["#C8F56E","#8EEAD9","#F2A65E"]},"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { filter: 'Tous' }; }
+  renderVals() {
+    const TF = { 'Unbounded': ["'Unbounded', sans-serif", 600, '.01em'], 'Syne': ["'Syne', sans-serif", 800, '.01em'], 'Big Shoulders Display': ["'Big Shoulders Display', sans-serif", 800, '.03em'], 'Bricolage Grotesque': ["'Bricolage Grotesque', sans-serif", 700, '0'] };
+    const tf = TF[this.props.titleFont ?? 'Unbounded'] || TF['Unbounded'];
+    const accent = this.props.accent ?? '#C8F56E';
+    const C = ['#F0938F', '#F2A65E', '#F2D46B', '#B6E35A', '#7FD96B'];
+    const dots = (n) => C.map((c, i) => (i < n ? c : '#4A4A47'));
+    const labels = ['Tous', 'Chaud', 'Intérêt fort', 'Intérêt moyen', 'Relances'];
+    const filters = labels.map((label) => {
+      const on = this.state.filter === label;
+      return { label, on: on ? 'true' : 'false', style: on ? 'background:#F4F4F1;color:#141414;border-color:#F4F4F1' : '', pick: () => this.setState({ filter: label }) };
+    });
+    return {
+      titleFamily: tf[0], titleWeight: tf[1], titleSpacing: tf[2], accent, filters,
+      leads: [
+        { name: 'Le Nuage Bleu', meta: 'Vape shop · Bordeaux', note: 'Gros rayon DIY et longfills. Angle : pas de saveur dormante.', source: 'Instagram', score: 71, dots: dots(4) },
+        { name: 'Smoke Free 59', meta: 'Chaîne · Lille · 5 boutiques', note: 'Réseau de 5 boutiques. Angle : version Découverte 1 m².', source: 'Annuaire', score: 68, dots: dots(4) },
+        { name: 'Atelier Vapeur', meta: 'Vape shop · Nantes', note: 'Pas de site, Instagram actif. Angle : mix bar en boutique.', source: 'Google Maps', score: 54, dots: dots(3) }
+      ],
+      replies: [
+        { shop: 'Vap’Hôtel Rennes', summary: 'Intéressé, demande le récap prix et des échantillons de 5 saveurs fruitées.', status: 'Intéressé', pill: 'background:' + accent + ';color:#141414' },
+        { shop: 'La Fumée Douce', summary: 'Rappeler après le 15 novembre, inventaire en cours.', status: 'À rappeler', pill: 'background:#F2D46B;color:#141414' },
+        { shop: 'Cloud 33', summary: 'Travaille déjà avec un fournisseur exclusif, pas intéressé.', status: 'Refus', pill: 'background:#454542;color:#F4F4F1' },
+        { shop: 'Vapo Center Metz', summary: 'Question sur les délais de livraison vers la Moselle.', status: 'Question', pill: 'background:#8EEAD9;color:#141414' }
+      ],
+      brief: [
+        { time: '07:42', title: '12 fiches complétées', text: 'Sites, e-mails, marques vendues et score pour les nouvelles boutiques.', bg: '#FFFFFF' },
+        { time: '07:44', title: '2 boutiques bloquées', text: 'Déjà clientes : aucun e-mail ne partira vers elles.', bg: '#FFFFFF' },
+        { time: '07:46', title: '18 brouillons rédigés', text: 'Un par boutique, avec l’angle le plus pertinent.', bg: accent },
+        { time: '07:48', title: '4 réponses résumées', text: 'Une boutique intéressée demande des échantillons.', bg: '#FFFFFF' },
+        { time: '07:50', title: '3 relances prêtes', text: 'Sans réponse depuis 5 jours.', bg: '#FFFFFF' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
