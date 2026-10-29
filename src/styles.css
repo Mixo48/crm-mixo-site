@@ -207,6 +207,32 @@ select.statut-choix { height: 44px; padding: 0 16px; border-radius: 999px; borde
 .connexion { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
 .connexion form { width: min(420px, 100%); display: flex; flex-direction: column; gap: 16px; }
 
+
+/* ------------------------------------------------------------ calendrier */
+.calendrier { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.cal-tete { font-size: 12px; color: var(--texte-2); padding: 0 6px 4px; }
+.cal-jour { min-height: 112px; background: var(--surface); border: 1px solid transparent; border-radius: 20px; padding: 10px; display: flex; flex-direction: column; gap: 6px; text-align: left; color: var(--texte); cursor: pointer; min-width: 0; }
+.cal-jour:hover { border-color: #5A5A55; }
+.cal-jour.hors { background: transparent; border-color: #2E2E2C; color: #6E6E68; }
+.cal-jour.choisi { border-color: var(--accent); }
+.cal-jour .num { font-size: 15px; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+.cal-jour.auj .num { background: var(--accent); color: var(--sur-accent); font-weight: 600; }
+.cal-ev { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cal-pil { font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cal-points { display: none; gap: 3px; }
+.cal-points .point { width: 7px; height: 7px; }
+
+/* ------------------------------------------------------------ chat */
+.chat { display: flex; flex-direction: column; gap: 14px; }
+.bulle { max-width: min(720px, 88%); border-radius: 24px; padding: 14px 18px; font-size: 15px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bulle.moi { align-self: flex-end; background: var(--texte); color: var(--sombre); border-bottom-right-radius: 8px; }
+.bulle.claude { align-self: flex-start; background: var(--surface); color: var(--texte); border-bottom-left-radius: 8px; }
+.bulle .h { display: block; font-size: 12px; color: var(--texte-2); margin-top: 6px; }
+.bulle.moi .h { color: #6E6E68; }
+.saisie { position: sticky; bottom: 16px; z-index: 5; display: flex; align-items: flex-end; gap: 10px; background: var(--texte); border-radius: 28px; padding: 8px 8px 8px 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, .35); }
+.saisie textarea { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--sombre); font-size: 15px; resize: none; padding: 12px 0; max-height: 200px; outline: none; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+
 /* ------------------------------------------------------------ mobile */
 .nav-mobile { display: none; }
 .seulement-mobile { display: none !important; }
@@ -237,4 +263,12 @@ select.statut-choix { height: 44px; padding: 0 16px; border-radius: 999px; borde
   .nav-mobile a[aria-current="page"] { background: var(--texte); color: var(--sombre); }
   .nav-mobile .badge { position: absolute; top: 10px; right: 11px; width: 9px; height: 9px; border-radius: 50%; background: #F0938F; }
   .grille, .grille-large { grid-template-columns: 1fr; }
+  .calendrier { gap: 4px; }
+  .cal-jour { min-height: 54px; padding: 6px 2px; border-radius: 14px; align-items: center; gap: 4px; }
+  .cal-jour .num { width: 26px; height: 26px; font-size: 13px; }
+  .cal-ev { display: none; }
+  .cal-points { display: flex; }
+  .nav-mobile { gap: 6px; padding: 6px; }
+  .nav-mobile a { width: 42px; height: 42px; }
+  .saisie { bottom: 84px; }
 }

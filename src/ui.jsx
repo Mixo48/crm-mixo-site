@@ -18,6 +18,9 @@ export const Cadenas = () => (
 const IcoMatinee = () => <I t={20}><rect x="3" y="3" width="14" height="14" rx="4" /><path d="M7 8h6M7 12h4" /></I>
 const IcoProspects = () => <I t={20}><circle cx="7.5" cy="7" r="3" /><circle cx="14" cy="8" r="2.2" /><path d="M2.5 16c.5-2.6 2.6-4 5-4s4.5 1.4 5 4M13 12.2c2 0 3.6 1.2 4 3.3" /></I>
 const IcoEnvois = () => <I t={20}><path d="M3 10l14-6-6 14-2-6-6-2z" /></I>
+const IcoCalendrier = () => <I t={20}><rect x="3" y="4.5" width="14" height="12.5" rx="3" /><path d="M3 8.5h14M7 2.5v4M13 2.5v4" /></I>
+const IcoClients = () => <I t={20}><path d="M3.5 8.5L5 4h10l1.5 4.5M3.5 8.5h13M3.5 8.5V16h13V8.5M8 16v-4h4v4" /></I>
+const IcoClaude = () => <I t={20}><path d="M10 2.5v3M10 14.5v3M2.5 10h3M14.5 10h3M4.7 4.7l2.1 2.1M13.2 13.2l2.1 2.1M4.7 15.3l2.1-2.1M13.2 6.8l2.1-2.1" /></I>
 const IcoReponses = () => <I t={20}><path d="M3 5.5A2.5 2.5 0 015.5 3h9A2.5 2.5 0 0117 5.5v6a2.5 2.5 0 01-2.5 2.5H9l-4 3v-3h0A2 2 0 013 12V5.5z" /></I>
 
 // ------------------------------------------------------------------ petits composants
@@ -136,6 +139,9 @@ const LIENS = [
   { href: '#/prospects', nom: 'Prospects', ico: IcoProspects, cle: 'prospects' },
   { href: '#/envois', nom: 'Envois', ico: IcoEnvois, cle: 'envois' },
   { href: '#/reponses', nom: 'Réponses', ico: IcoReponses, cle: 'reponses' },
+  { href: '#/calendrier', nom: 'Calendrier', ico: IcoCalendrier, cle: 'calendrier' },
+  { href: '#/clients', nom: 'Clients', ico: IcoClients, cle: 'clients' },
+  { href: '#/claude', nom: 'Claude', ico: IcoClaude, cle: 'claude' },
 ]
 
 export function Entete({ actif, children }) {

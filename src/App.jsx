@@ -6,6 +6,9 @@ import Prospects from './pages/Prospects.jsx'
 import Fiche from './pages/Fiche.jsx'
 import Envois from './pages/Envois.jsx'
 import Reponses from './pages/Reponses.jsx'
+import Calendrier from './pages/Calendrier.jsx'
+import Clients from './pages/Clients.jsx'
+import Claude from './pages/Claude.jsx'
 
 // Navigation par ancre (#/prospects…) : le site reste un simple dossier de fichiers statiques.
 function useRoute() {
@@ -37,5 +40,8 @@ export default function App() {
   if (page === 'boutique' && id) return <Fiche key={id} id={id} />
   if (page === 'envois') return <Envois choisi={id} />
   if (page === 'reponses') return <Reponses />
+  if (page === 'calendrier') return <Calendrier />
+  if (page === 'clients') return <Clients />
+  if (page === 'claude') return <Claude />
   return <Matinee />
 }

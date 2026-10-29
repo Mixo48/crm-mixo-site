@@ -68,6 +68,7 @@ export const DEMANDES = {
   resumer_reponse: 'Lire une réponse',
   note: 'Enregistrer une note',
   brief: 'Préparer le brief',
+  chat: 'Répondre à ta question',
 }
 
 // Couleurs de pastille, d'après le cahier de design.

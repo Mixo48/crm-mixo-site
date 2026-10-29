@@ -9,6 +9,7 @@ Il ne fait **ni IA, ni envoi d'e-mail**. Il écrit dans la base, et ce sont les 
 | Ajouter une boutique, « Compléter avec Claude » | `boutiques`, puis une demande `enrichir` dans `file_claude` | Le veilleur cherche les infos sur le web. |
 | « Préparer un e-mail », « Réécrire avec Claude » | Demande `rediger` (consigne préfixée `[premier]`, `[relance_1]`…) ou `reecrire` | Le veilleur rédige un brouillon `a_valider`. |
 | « Note rapide » | Demande `note` | Le veilleur met à jour le statut et l'historique. |
+| Chat avec Claude | Demande `chat` (la question dans `consigne`) | Le veilleur répond dans `resultat.reponse`. |
 | « Envoyer la sélection » | `brouillons.statut` passe de `a_valider` à `valide` | Le facteur envoie, un par un, dans les plafonds de `reglages`. |
 | « Mettre les envois en pause » | `reglages.envoi_pause` | Le facteur arrête d'envoyer. |
 | Voyant « condor en marche » | lit `services_etat` | Les deux services y écrivent toutes les 30 s environ. |
@@ -22,6 +23,9 @@ Il ne fait **ni IA, ni envoi d'e-mail**. Il écrit dans la base, et ce sont les 
 | Fiche boutique | Ce que Claude a trouvé et ses sources, échanges, résumé, prochaine action, note. |
 | Envois | Coche, aperçu, modification, réécriture, écarter, envoi. |
 | Réponses | Toutes les réponses reçues, classées par Claude. |
+| Calendrier | Vue du mois : actions prévues (`prochaine_action_le`), e-mails envoyés ou en file, réponses reçues ; actions en retard. |
+| Clients | Les clients bloqués (import Odoo et ancien CRM), regroupés par boutique, avec recherche. |
+| Claude | Chat : le message part dans `file_claude` (type `chat`), le veilleur répond. Claude lit un état du CRM préparé par Python et peut chercher sur le web ; il ne modifie rien. |
 
 Sur téléphone, la navigation passe en bas de l'écran.
 
