@@ -21,7 +21,7 @@ function donnees() {
       { id: 'd1', boutique_id: 'b1', type: 'premier', statut: 'a_valider', objet: 'Le 60 ml qui laisse de la marge', corps: corps('Vous vendez Liquideo et Alfaliquid : notre 60 ml laisse plus de marge.'), cree_le: h(2), maj_le: h(2) },
       { id: 'd2', boutique_id: 'b2', type: 'premier', statut: 'a_valider', objet: 'Plus de saveur qui dort en rayon', corps: corps('88 saveurs qui se mélangent : rien ne reste en stock.'), cree_le: h(2), maj_le: h(2) },
       { id: 'd3', boutique_id: 'b3', type: 'relance_1', statut: 'a_valider', objet: 'Re: Un bar à saveurs pour vos 5 boutiques', corps: corps('Je me permets de revenir vers vous.'), cree_le: h(1), maj_le: h(1) },
-      { id: 'd4', boutique_id: 'b4', type: 'reponse', statut: 'a_valider', objet: 'Re: Le mix en boutique', corps: corps('Voici le récap prix. Je vous propose 5 échantillons fruités.'), cree_le: h(1), maj_le: h(1) },
+      { id: 'd4', boutique_id: 'b4', type: 'reponse', statut: 'a_valider', pieces_jointes: ['offre'], objet: 'Re: Le mix en boutique', corps: corps('Voici le récap prix. Je vous propose 5 échantillons fruités.'), cree_le: h(1), maj_le: h(1) },
       { id: 'd5', boutique_id: 'b6', type: 'premier', statut: 'erreur', erreur: 'boutique bloquée : cliente depuis 2021', objet: 'x', corps: 'x', cree_le: h(30), maj_le: h(20) },
     ],
     echanges: [
@@ -36,7 +36,10 @@ function donnees() {
       { service: 'facteur', vu_le: h(0.01), info: { mode_test: true, envois_aujourdhui: 3, en_attente_parce_que: null } },
     ],
     reglages: [
-      { cle: 'envoi_pause', valeur: false }, { cle: 'envoi_intervalle_secondes', valeur: 120 },
+      { cle: 'envoi_pause', valeur: false }, { cle: 'documents', valeur: [
+      { id: 'offre', nom: 'Offre Le Mixologue (packs et prix)', fichier: 'Offre_Mixologue.pdf', usage: 'Prix et packs', premier_contact: false },
+      { id: 'cout_revient', nom: 'Calculateur de coût de revient', fichier: 'Cout_de_revient_Mixologue.xlsx', usage: 'Marge', premier_contact: false },
+      { id: 'catalogue', nom: 'Catalogue (zip)', fichier: 'Catalogue_Mixologue_EN.pdf.zip', usage: 'Saveurs', premier_contact: true }] }, { cle: 'envoi_intervalle_secondes', valeur: 120 },
       { cle: 'envoi_max_par_jour', valeur: 40 }, { cle: 'envoi_heures', valeur: { debut: 9, fin: 18, jours: [1, 2, 3, 4, 5] } },
     ],
     file_claude: [

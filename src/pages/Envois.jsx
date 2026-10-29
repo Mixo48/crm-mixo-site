@@ -7,7 +7,7 @@ const BOUTIQUE = 'boutiques(id,nom,ville,email,statut)'
 
 async function charger() {
   const [brouillons, attente, erreurs, reglages, facteur, reecritures] = await Promise.all([
-    q(supabase.from('brouillons').select(`id,type,objet,corps,cree_le,maj_le,boutique_id,${BOUTIQUE}`).eq('statut', 'a_valider').order('cree_le')),
+    q(supabase.from('brouillons').select(`id,type,objet,corps,pieces_jointes,cree_le,maj_le,boutique_id,${BOUTIQUE}`).eq('statut', 'a_valider').order('cree_le')),
     q(supabase.from('brouillons').select(`id,type,statut,valide_le,${BOUTIQUE}`).in('statut', ['valide', 'en_envoi']).order('valide_le')),
     q(supabase.from('brouillons').select(`id,type,erreur,maj_le,${BOUTIQUE}`).eq('statut', 'erreur').order('maj_le', { ascending: false }).limit(10)),
     q(supabase.from('reglages').select('cle,valeur')),
@@ -49,7 +49,41 @@ function estimation(n, attente, r, facteur) {
   return `${rythme}, fini vers ${heure(finVers.toISOString())}${demain ? ` le ${jourCourt(depart.toISOString())}` : ''} · plafond OVH d’environ 200 par heure`
 }
 
-function Apercu({ d, modeTest, reecriture, onChange }) {
+// Pièces jointes : les fichiers sont sur condor (documents/), la liste dans reglages.documents.
+// Jamais dans un premier contact, sauf un document marqué premier_contact (le catalogue).
+function PiecesJointes({ d, documents, onChange }) {
+  const [erreur, setErreur] = useState(null)
+  if (!documents.length) return null
+  const choisies = new Set(d.pieces_jointes || [])
+  const basculer = async (id) => {
+    const s = new Set(choisies)
+    s.has(id) ? s.delete(id) : s.add(id)
+    setErreur(null)
+    try {
+      await q(supabase.from('brouillons').update({ pieces_jointes: [...s] }).eq('id', d.id).eq('statut', 'a_valider'))
+      onChange()
+    } catch (e) { setErreur(e) }
+  }
+  return (
+    <div className="bloc" style={{ gap: 8 }}>
+      <strong style={{ fontSize: 15 }}>Pièces jointes</strong>
+      {d.type === 'premier' && <span className="petit">Premier contact : pas de pièce jointe, sauf le catalogue si tu le veux.</span>}
+      {documents.map((doc) => {
+        const interdit = d.type === 'premier' && !doc.premier_contact
+        return (
+          <label key={doc.id} className="rangee" style={{ gap: 10, cursor: interdit ? 'not-allowed' : 'pointer', opacity: interdit ? 0.45 : 1 }} title={doc.usage}>
+            <input type="checkbox" checked={choisies.has(doc.id)} disabled={interdit && !choisies.has(doc.id)} onChange={() => basculer(doc.id)}
+              style={{ width: 20, height: 20, accentColor: '#141414', colorScheme: 'light' }} />
+            <span style={{ fontSize: 14 }}>{doc.nom} <span className="petit">· {doc.fichier}</span></span>
+          </label>
+        )
+      })}
+      <Erreur e={erreur} />
+    </div>
+  )
+}
+
+function Apercu({ d, modeTest, reecriture, documents, onChange }) {
   const [edition, setEdition] = useState(false)
   const [objet, setObjet] = useState(d.objet)
   const [corps, setCorps] = useState(d.corps)
@@ -115,6 +149,7 @@ function Apercu({ d, modeTest, reecriture, onChange }) {
           ? <textarea aria-label="Texte de l’e-mail" rows="16" value={corps} onChange={(e) => setCorps(e.target.value)} style={{ border: '1px solid #CFCFC9', borderRadius: 14, padding: 12, font: 'inherit', fontSize: 15, lineHeight: 1.6 }} />
           : <p className="corps">{d.corps}</p>}
       </div>
+      {!edition && <PiecesJointes d={d} documents={documents} onChange={onChange} />}
       {!contientStop(edition ? corps : d.corps) && <div className="avis attention">La ligne « STOP » manque : le facteur refusera d’envoyer cet e-mail.</div>}
       <Erreur e={erreur} />
       {edition
@@ -198,12 +233,12 @@ export default function Envois({ choisi }) {
                     <span className="nom">{d.boutiques?.nom}</span>
                     <span className="meta">{bloque ? 'Bloquée : ne partira pas' : [d.boutiques?.ville, d.objet].filter(Boolean).join(' · ')}</span>
                   </button>
-                  <span className="puce">{TYPES_BROUILLON[d.type]}</span>
+                  <span className="puce">{TYPES_BROUILLON[d.type]}{d.pieces_jointes?.length ? ` · ${d.pieces_jointes.length} PJ` : ''}</span>
                 </div>
               )
             })}
           </section>
-          {courant && <Apercu d={courant} modeTest={modeTest} reecriture={reecriture(courant.id)} onChange={recharger} />}
+          {courant && <Apercu d={courant} modeTest={modeTest} reecriture={reecriture(courant.id)} documents={data?.reglages?.documents || []} onChange={recharger} />}
         </div>
       )}
 

@@ -38,7 +38,7 @@ export default function App() {
   const [, page, id] = route.split('/')
   if (page === 'prospects') return <Prospects />
   if (page === 'boutique' && id) return <Fiche key={id} id={id} />
-  if (page === 'envois') return <Envois choisi={id} />
+  if (page === 'envois') return <Envois key={id || 'tous'} choisi={id} />
   if (page === 'reponses') return <Reponses />
   if (page === 'calendrier') return <Calendrier />
   if (page === 'clients') return <Clients />
