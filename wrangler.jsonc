@@ -1,0 +1,10 @@
+// Publication sur Cloudflare (Workers, fichiers statiques) : `npm run build` produit dist/,
+// puis `npx wrangler deploy` le met en ligne. Aucun code serveur.
+{
+  "name": "crm-mixo-site",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

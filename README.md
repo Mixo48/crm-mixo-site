@@ -43,15 +43,14 @@ npm run dev                         # http://localhost:5173
 - `http://localhost:5173/?demo` affiche le site avec les données d'exemple de la maquette (fichier `src/demo.js`), sans compte ni base. Ce mode n'existe qu'en développement : il est retiré du site publié.
 - `npm run build` produit le site dans `dist/`.
 
-## Mise en ligne (Cloudflare Pages)
+## Mise en ligne (Cloudflare)
 
-Cloudflare Pages → *Create* → *Connect to Git* → choisir ce dépôt, puis :
+Workers & Pages → *Create* → *Import a repository* → `Mixo48/crm-mixo-site`, avec les commandes proposées :
 
 | Réglage | Valeur |
 |---|---|
-| Framework preset | Vite |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` (lit `wrangler.jsonc` : publie `dist/`) |
 
 Chaque `git push` sur `main` republie le site.
 
