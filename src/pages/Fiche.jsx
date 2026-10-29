@@ -19,12 +19,15 @@ async function charger(id) {
   return { b, echanges, brouillons, demandes }
 }
 
-// Type d'e-mail le plus probable, d'après l'historique ; le veilleur le recalcule de toute façon.
-function typeProbable(echanges, brouillons) {
+const DEJA_CONTACTEE = ['contacte', 'relance', 'interesse', 'a_rappeler', 'echantillon']
+
+// Type d'e-mail le plus probable, d'après l'historique. Une boutique reprise de l'ancien CRM est déjà
+// contactée sans e-mail envoyé d'ici : on propose une relance plutôt qu'un premier contact.
+function typeProbable(b, echanges, brouillons) {
   const dernierEntrant = echanges.find((e) => e.sens === 'entrant' && e.canal === 'email')
   const envoyes = brouillons.filter((x) => x.statut === 'envoye')
   if (dernierEntrant && (!envoyes[0] || new Date(dernierEntrant.le) > new Date(envoyes[0].envoye_le))) return 'reponse'
-  if (!envoyes.length) return 'premier'
+  if (!envoyes.length) return DEJA_CONTACTEE.includes(b.statut) ? 'relance_1' : 'premier'
   if (!envoyes.some((x) => x.type === 'relance_1')) return 'relance_1'
   return 'relance_2'
 }
@@ -67,7 +70,7 @@ function Infos({ b }) {
 
 function Rediger({ b, echanges, brouillons, onDemande }) {
   const [ouvert, setOuvert] = useState(false)
-  const [type, setType] = useState(() => typeProbable(echanges, brouillons))
+  const [type, setType] = useState(() => typeProbable(b, echanges, brouillons))
   const [consigne, setConsigne] = useState('')
   const [erreur, setErreur] = useState(null)
   if (!ouvert) return <button className="btn noir" onClick={() => setOuvert(true)}>Préparer un e-mail</button>
@@ -186,7 +189,8 @@ export default function Fiche({ id }) {
               {sources.map((s) => <a key={s.url} className="puce" href={s.url} target="_blank" rel="noreferrer noopener" title={s.champs.join(', ')}>{s.hote}</a>)}
               {!bloque && (
                 <span className="puce" style={{ background: '#2B3A2A', color: '#9FE58C' }}>
-                  {b.dernier_contact_le ? `Dernier contact le ${jourCourt(b.dernier_contact_le)}` : 'Pas cliente · jamais contactée'}
+                  {b.dernier_contact_le ? `Dernier contact le ${jourCourt(b.dernier_contact_le)}`
+                    : DEJA_CONTACTEE.includes(b.statut) ? 'Déjà contactée (date inconnue)' : 'Pas cliente · jamais contactée'}
                 </span>
               )}
             </div>
