@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { PAYS, STATUTS, metaBoutique, q, supabase, useCharge } from '../lib.js'
+import { PAYS, STATUTS, emailValide, metaBoutique, q, supabase, useCharge } from '../lib.js'
 import { CarteBloquee, Entete, Erreur, Fleche, Loupe, Plus, Score, Statut, Titre } from '../ui.jsx'
 import FormBoutique from '../FormBoutique.jsx'
 
@@ -12,6 +12,7 @@ const GROUPES = {
   Clients: ['client'],
   Refus: ['refus'],
   Bloquées: ['bloque'],
+  'Sans e-mail': null,
 }
 const CONTACTES = ['contacte', 'relance', 'interesse', 'a_rappeler', 'echantillon']
 
@@ -41,7 +42,7 @@ export default function Prospects() {
     const r = recherche.trim().toLowerCase()
     return boutiques.filter((b) =>
       (pays === 'Tous' || b.pays === pays) &&
-      (!GROUPES[groupe] || GROUPES[groupe].includes(b.statut)) &&
+      (groupe === 'Sans e-mail' ? b.statut !== 'bloque' && !emailValide(b.email) : !GROUPES[groupe] || GROUPES[groupe].includes(b.statut)) &&
       (!r || [b.nom, b.ville, b.email].some((v) => v?.toLowerCase().includes(r))))
   }, [boutiques, recherche, pays, groupe])
   const compte = (statuts) => boutiques.filter((b) => statuts.includes(b.statut)).length
@@ -56,9 +57,7 @@ export default function Prospects() {
 
   return (
     <div className="page">
-      <Entete actif="prospects">
-        <button className="pilule plein" onClick={() => setAjout(true)}><Plus />Ajouter une boutique</button>
-      </Entete>
+      <Entete actif="prospects" />
 
       <section className="titre-bloc">
         <Titre texte="PROSPECTS" lettre="O" />
@@ -80,6 +79,7 @@ export default function Prospects() {
             <Loupe />
             <input id="q" type="search" placeholder="Nom, ville, e-mail…" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
           </div>
+          <button className="pilule plein" onClick={() => setAjout(true)}><Plus />Ajouter une boutique</button>
           {paysPresents.length > 1 && (
             <div className="rangee" role="group" aria-label="Pays">
               {['Tous', ...paysPresents].map((p) => (
@@ -109,6 +109,7 @@ export default function Prospects() {
               <h3>{b.nom}</h3>
               <span className="meta">{metaBoutique(b)}</span>
             </div>
+            {!emailValide(b.email) && <span className="puce" style={{ alignSelf: 'flex-start', background: '#3D3520', color: '#F2D46B' }}>{b.email ? 'E-mail incomplet' : 'Sans e-mail'}</span>}
             {!!b.marques?.length && <div className="rangee" style={{ gap: 6 }}>{b.marques.slice(0, 3).map((m) => <span key={m} className="puce">{m}</span>)}</div>}
             <div className="pied">
               <div><span className="lbl">Statut</span><Statut code={b.statut} libelle={STATUTS[b.statut]} /></div>

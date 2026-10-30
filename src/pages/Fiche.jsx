@@ -247,6 +247,19 @@ export default function Fiche({ id }) {
         </div>
       </section>
 
+      {!b.email && !bloque && (
+        // Règle : un prospect sans e-mail est signalé, aucun e-mail ne peut lui partir.
+        <div className="avis attention rangee" style={{ gap: 10 }}>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <b>Pas d’adresse e-mail.</b>{' '}
+            {b.infos?.verifie_le
+              ? `Claude n’en a pas trouvé le ${jourCourt(b.infos.verifie_le)}. Passe par le téléphone, Instagram ou Facebook, ou ajoute-la à la main.`
+              : 'Aucun e-mail ne pourra partir tant qu’elle manque.'}
+          </span>
+          {!b.infos?.verifie_le && !attente.some((d) => d.type === 'enrichir') && <button className="btn accent" style={{ height: 32 }} onClick={enrichir} disabled={enCours}>La chercher avec Claude</button>}
+          <button className="btn contour" style={{ height: 32 }} onClick={() => setEdition(true)}>L’ajouter</button>
+        </div>
+      )}
       {b.email && !emailValide(b.email) && (
         <div className="avis attention">L’adresse e-mail « {b.email} » est incomplète : aucun e-mail ne pourra partir. <button className="btn contour" style={{ height: 32, marginLeft: 8 }} onClick={() => setEdition(true)}>La corriger</button></div>
       )}
@@ -321,7 +334,9 @@ export default function Fiche({ id }) {
               {b.prochaine_action || (bloque ? 'Rien : aucun e-mail ne doit partir vers cette boutique.' : 'Aucune action prévue.')}
             </p>
             {aRelire && <a className="btn noir" href={`#/envois/${aRelire.id}`}>Relire le brouillon ({TYPES_BROUILLON[aRelire.type]})</a>}
-            {!aRelire && !bloque && !attente.some((d) => d.type === 'rediger') && <Rediger b={b} echanges={echanges} brouillons={brouillons} onDemande={recharger} />}
+            {!aRelire && !bloque && !attente.some((d) => d.type === 'rediger') && (emailValide(b.email)
+              ? <Rediger b={b} echanges={echanges} brouillons={brouillons} onDemande={recharger} />
+              : <span className="petit">Pas d’e-mail valide : ajoute-le avant de préparer un e-mail.</span>)}
           </div>
 
           {attente.map((d) => <span key={d.id} className="travail">Claude : {DEMANDES[d.type].toLowerCase()}{d.statut === 'en_cours' ? ' (en cours)' : ' (en attente)'}</span>)}

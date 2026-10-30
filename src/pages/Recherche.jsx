@@ -44,7 +44,8 @@ function Candidat({ c, ajoutee, onAjout }) {
       <div className="tete"><h3>{c.nom}</h3><span className="meta">{metaBoutique(c)}{c.adresse ? ` · ${c.adresse}` : ''}</span></div>
       {c.pourquoi && <p>{c.pourquoi}</p>}
       <div className="rangee" style={{ gap: 6 }}>
-        {c.email && <span className="puce">{c.email}</span>}
+        {c.email ? <span className="puce">{c.email}</span>
+          : <span className="puce" style={{ background: '#3D3520', color: '#F2D46B' }} title="« Ajouter et enrichir » pour que Claude la cherche">Sans e-mail</span>}
         {c.telephone && <span className="puce">{c.telephone}</span>}
         {c.instagram && <span className="puce">{c.instagram}</span>}
         {c.site_web && <a className="puce" href={c.site_web} target="_blank" rel="noreferrer noopener">{c.site_web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>}
