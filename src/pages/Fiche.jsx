@@ -5,6 +5,7 @@ import {
 } from '../lib.js'
 import { Cadenas, Entete, Erreur, Retour, Score } from '../ui.jsx'
 import FormBoutique from '../FormBoutique.jsx'
+import Debloquer from '../Debloquer.jsx'
 
 const SANS_ENVOI = ['bloque', 'client', 'refus']
 const EN_COURS = ['en_attente', 'en_cours']
@@ -108,6 +109,7 @@ export default function Fiche({ id }) {
   const [erreur, setErreur] = useState(null)
   const [enCours, setEnCours] = useState(false)
   const [edition, setEdition] = useState(false)
+  const [deblocage, setDeblocage] = useState(false)
   const { data, error, recharger } = useCharge(() => charger(id), [id], { toutes: 5000 })
 
   if (error && !data) return <div className="page"><Entete actif="prospects" /><Erreur e={error} /></div>
@@ -169,7 +171,8 @@ export default function Fiche({ id }) {
       )}
       {b.statut === 'bloque' && (
         <div className="avis erreur rangee" style={{ gap: 10 }}>
-          <Cadenas /><span>Bloquée : {b.bloque_raison || 'raison inconnue'}. Aucun e-mail ne peut partir vers cette boutique.</span>
+          <Cadenas /><span style={{ flex: 1 }}>Bloquée : {b.bloque_raison || 'raison inconnue'}. Aucun e-mail ne peut partir vers cette boutique.</span>
+          <button className="btn danger" style={{ height: 36 }} onClick={() => setDeblocage(true)}>Débloquer</button>
         </div>
       )}
       <Erreur e={erreur} />
@@ -251,6 +254,7 @@ export default function Fiche({ id }) {
           </form>
         </aside>
       </div>
+      {deblocage && <Debloquer b={b} onFermer={() => setDeblocage(false)} onFini={() => { setDeblocage(false); recharger() }} />}
       {edition && <FormBoutique boutique={b} onFermer={() => setEdition(false)} onFini={() => { setEdition(false); recharger() }} />}
     </div>
   )

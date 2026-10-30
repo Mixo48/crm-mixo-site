@@ -83,6 +83,8 @@ function requete({ B, D }, table) {
     neq(k, v) { filtres.push((l) => l[k] !== v); return r },
     in(k, v) { filtres.push((l) => v.includes(l[k])); return r },
     gt(k, v) { filtres.push((l) => l[k] > v); return r },
+    ilike(k, v) { const re = new RegExp('^' + String(v).replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$', 'i'); filtres.push((l) => re.test(l[k] || '')); return r },
+    delete() { changement = { delete: true }; return r },
     gte(k, v) { filtres.push((l) => l[k] != null && l[k] >= v); return r },
     lt(k, v) { filtres.push((l) => l[k] != null && l[k] < v); return r },
     not(k, _op, v) { const l2 = v.replace(/[()]/g, '').split(','); filtres.push((l) => !l2.includes(l[k])); return r },
@@ -99,6 +101,7 @@ function requete({ B, D }, table) {
       if (changement?.insert) { lignes.push(changement.insert); return Promise.resolve({ data: changement.insert, error: null }).then(ok, ko) }
       let res = lignes.filter((l) => filtres.every((f) => f(l)))
       if (changement?.update) res.forEach((l) => Object.assign(l, changement.update))
+      if (changement?.delete) res.forEach((l) => lignes.splice(lignes.indexOf(l), 1))
       res = res.map((l) => joindre(B, table, l))
       if (tri) res = [...res].sort((a, b) => ((a[tri[0]] ?? '') > (b[tri[0]] ?? '') ? 1 : -1) * (tri[1] ? 1 : -1))
       if (limite) res = res.slice(0, limite)
@@ -114,6 +117,7 @@ export function clientDemo() {
   const session = { user: { email: 'demo@exemple.fr' } }
   return {
     from: (table) => requete(base, table),
+    rpc: async (nom, args) => ({ data: nom === 'est_webmail' ? ['gmail.com', 'orange.fr'].includes(args.d) : null, error: null }),
     auth: {
       getSession: async () => ({ data: { session } }),
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe() {} } } }),
