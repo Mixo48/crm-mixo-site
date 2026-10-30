@@ -5,6 +5,7 @@ import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import { STATUTS, cleVille, q, supabase, useCharge } from '../lib.js'
 import { Entete, Erreur, Titre } from '../ui.jsx'
+import { fondCarte } from '../fondCarte.js'
 
 // Trois calques, couleurs du cahier de design.
 const CALQUES = {
@@ -68,13 +69,7 @@ export default function Carte() {
   useEffect(() => {
     if (carte.current || !conteneur.current) return
     carte.current = L.map(conteneur.current, { zoomControl: true, attributionControl: true }).setView([47.5, 3.5], 6)
-    // Fond OpenStreetMap, assombri en CSS (.carte-geo .leaflet-tile-pane) pour suivre le site.
-    // OpenStreetMap refuse les tuiles demandées sans site d'origine : le site envoie Referrer-Policy: same-origin
-    // (public/_headers), on autorise donc ici l'envoi de la seule adresse du site, sans le chemin.
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18, referrerPolicy: 'strict-origin-when-cross-origin',
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(carte.current)
+    fondCarte(carte.current)
     return () => { carte.current?.remove(); carte.current = null }
   }, [])
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { STATUTS, demander, heure, jourCourt, metaBoutique, q, supabase, useCharge } from '../lib.js'
 import { Entete, Envoyer, Erreur, Fleche, Plus, Score, Statut, Titre } from '../ui.jsx'
+import Visuels from '../Visuels.jsx'
 
 const EN_COURS = ['en_attente', 'en_cours']
 const SUGGESTIONS = [
@@ -49,6 +50,7 @@ function Echange({ m, fiches }) {
       {m.statut === 'fait' && (
         <>
           <div className="bulle claude">{r.reponse}</div>
+          <Visuels visuels={r.visuels} />
           {!!r.actions?.length && (
             <div className="actions-chat">
               {r.actions.map((a, i) => <span key={i} className={`statut ${a.ok ? 'p-accent' : 'p-rouge'}`}>{a.ok ? '✓' : '✗'} {a.texte}</span>)}

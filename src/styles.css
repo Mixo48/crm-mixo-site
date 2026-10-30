@@ -225,7 +225,8 @@ select.statut-choix { height: 44px; padding: 0 16px; border-radius: 999px; borde
 
 /* ------------------------------------------------------------ carte */
 .carte-geo { height: min(72vh, 760px); border-radius: 28px; overflow: hidden; background: #262626; border: 1px solid var(--contour); z-index: 0; }
-.carte-geo .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) grayscale(.75) brightness(.8) contrast(.9); }
+/* Assombri tuile par tuile : un filtre sur tout le calque laissait des lignes entre les tuiles. */
+.carte-geo .leaflet-tile { filter: invert(1) hue-rotate(180deg) grayscale(.75) brightness(.8) contrast(.9); }
 .carte-geo .leaflet-control-zoom a { background: var(--surface); color: var(--texte); border-color: var(--contour); }
 .carte-geo .leaflet-control-attribution { background: rgba(26, 26, 26, .8); color: var(--texte-2); font-size: 10px; }
 .carte-geo .leaflet-control-attribution a { color: var(--texte-2); }
@@ -233,6 +234,25 @@ select.statut-choix { height: 44px; padding: 0 16px; border-radius: 999px; borde
 .carte-geo .leaflet-popup-content { font-family: 'Urbanist', system-ui, sans-serif; font-size: 14px; line-height: 1.45; margin: 12px 16px; }
 .carte-geo .leaflet-popup-content a { color: #3A5A06; font-weight: 600; }
 .grappe span { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: var(--sombre); color: var(--texte); border: 3px solid; font: 600 13px 'Urbanist', system-ui, sans-serif; box-shadow: 0 2px 10px rgba(0, 0, 0, .5); }
+
+/* ------------------------------------------------------------ visuels du chat */
+.visuel { margin: 0; background: var(--surface); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 14px; max-width: 760px; }
+.visuel figcaption { font-size: 15px; font-weight: 600; }
+.carte-visuel { height: 340px; border-radius: 18px; }
+.barres { display: flex; flex-direction: column; gap: 8px; }
+.barre { display: grid; grid-template-columns: minmax(90px, 30%) 1fr auto; align-items: center; gap: 12px; padding: 2px 0; border-radius: 8px; }
+.barre:hover { background: rgba(244, 244, 241, .04); }
+.barre .lib { font-size: 14px; color: var(--texte-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barre .piste { height: 14px; display: block; }
+.barre .plein { display: block; height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; }
+.barre .val { font-size: 14px; color: var(--texte); font-variant-numeric: tabular-nums; min-width: 2.5em; text-align: right; }
+.tuiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.tuile { background: var(--fond); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.tuile b { font-size: 34px; font-weight: 400; line-height: 1.1; }
+.tuile span { font-size: 13px; color: var(--texte-2); }
+.tuile small { font-size: 12px; color: var(--texte-2); }
+.bulle-carte { background: var(--sombre); color: var(--texte); border: 0; border-radius: 10px; font: 600 12px 'Urbanist', system-ui, sans-serif; box-shadow: none; }
+.bulle-carte::before { display: none; }
 
 /* ------------------------------------------------------------ chat */
 .chat { display: flex; flex-direction: column; gap: 14px; }
