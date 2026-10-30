@@ -278,8 +278,8 @@ select.statut-choix { height: 44px; padding: 0 16px; border-radius: 999px; borde
   .cal-jour .num { width: 26px; height: 26px; font-size: 13px; }
   .cal-ev { display: none; }
   .cal-points { display: flex; }
-  .nav-mobile { gap: 6px; padding: 6px; }
-  .nav-mobile a { width: 42px; height: 42px; }
+  .nav-mobile { gap: 4px; padding: 5px; }
+  .nav-mobile a { width: 38px; height: 38px; }
   .liste-conv { flex-direction: row; overflow-x: auto; max-width: none !important; padding-bottom: 4px; }
   .liste-conv > .pilule { width: auto !important; flex: none; }
   .conv { flex: none; max-width: 220px; }

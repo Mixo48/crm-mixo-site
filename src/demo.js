@@ -47,6 +47,10 @@ function donnees() {
     { id: 'c1', type: 'chat', conversation_id: 'v1', statut: 'fait', consigne: 'Combien de boutiques à contacter ?', resultat: { reponse: 'Tu as 2 boutiques à contacter. Vapote & Cie a le meilleur score (82) : commence par elle.', fiches: ['b1', 'b2'], actions: [] }, cree_le: h(2) },
     { id: 'c3', type: 'chat', conversation_id: 'v1', statut: 'fait', consigne: 'Passe Smoke Free 59 en intéressé et bloque Vape Story Lille.', resultat: { reponse: 'C’est fait.', fiches: ['b3'], actions: [{ ok: true, texte: 'Smoke Free 59 : statut « interesse »' }, { ok: false, texte: 'Vape Story Lille est déjà bloquée' }] }, cree_le: h(1) },
     { id: 'c2', type: 'chat', conversation_id: 'v1', statut: 'en_cours', consigne: 'Est-ce que Vape Story Lille est cliente ?', cree_le: h(0.01) },
+    { id: 'r1', type: 'recherche', statut: 'fait', consigne: '{"zone":"Lille et métropole","type":"vape_shop","nombre":10,"criteres":"indépendants"}', cree_le: h(3), resultat: { remarque: 'Zone bien fournie, sources : Pages Jaunes et Google Maps.', ecartes: [{ nom: 'Vape Story', raison: 'client' }], candidats: [
+      { nom: 'Le Nuage du Nord', ville: 'Roubaix', pays: 'FR', type: 'vape_shop', email: 'contact@nuagedunord.fr', site_web: 'https://nuagedunord.fr', telephone: '03 20 00 00 00', source_url: 'https://www.pagesjaunes.fr', pourquoi: 'Indépendant avec un grand rayon DIY.', marques: ['Fuu'] },
+      { nom: 'Vap’Lille Centre', ville: 'Lille', pays: 'FR', type: 'vape_shop', instagram: '@vaplille', source_url: 'https://instagram.com', pourquoi: 'Instagram actif, met en avant les longfills.' } ] } },
+    { id: 'r2', type: 'recherche', statut: 'en_cours', consigne: '{"zone":"Bruxelles","type":"vape_shop","nombre":5}', cree_le: h(0.02) },
   ],
   conversations: [{ id: 'v1', titre: 'Combien de boutiques à contacter ?', maj_le: h(0.01) }, { id: 'v2', titre: 'Relances de la semaine', maj_le: h(26) }],
   blocages: [
