@@ -69,8 +69,10 @@ export default function Carte() {
     if (carte.current || !conteneur.current) return
     carte.current = L.map(conteneur.current, { zoomControl: true, attributionControl: true }).setView([47.5, 3.5], 6)
     // Fond OpenStreetMap, assombri en CSS (.carte-geo .leaflet-tile-pane) pour suivre le site.
+    // OpenStreetMap refuse les tuiles demandées sans site d'origine : le site envoie Referrer-Policy: same-origin
+    // (public/_headers), on autorise donc ici l'envoi de la seule adresse du site, sans le chemin.
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
+      maxZoom: 18, referrerPolicy: 'strict-origin-when-cross-origin',
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(carte.current)
     return () => { carte.current?.remove(); carte.current = null }
