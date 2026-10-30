@@ -25,7 +25,7 @@ Il ne fait **ni IA, ni envoi d'e-mail**. Il écrit dans la base, et ce sont les 
 | Réponses | Toutes les réponses reçues, classées par Claude. |
 | Calendrier | Vue du mois : actions prévues (`prochaine_action_le`), e-mails envoyés ou en file, réponses reçues ; actions en retard. |
 | Clients | Les clients bloqués (import Odoo et ancien CRM), regroupés par boutique, avec recherche. |
-| Claude | Chat : le message part dans `file_claude` (type `chat`), le veilleur répond. Claude lit un état du CRM préparé par Python et peut chercher sur le web ; il ne modifie rien. |
+| Claude | Chat en conversations séparées (table `conversations`), message le plus récent en haut. Le message part dans `file_claude` (type `chat`, `conversation_id`) ; le veilleur répond, affiche des fiches en cartes et exécute les actions autorisées (statut, blocage, ajout ou correction de fiche, prochaine action, enrichissement, rédaction), vérifiées par Python. Jamais d'envoi, de validation d'e-mail, de suppression ni de déblocage d'un client. |
 
 Sur téléphone, la navigation passe en bas de l'écran.
 

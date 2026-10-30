@@ -42,6 +42,6 @@ export default function App() {
   if (page === 'reponses') return <Reponses />
   if (page === 'calendrier') return <Calendrier />
   if (page === 'clients') return <Clients />
-  if (page === 'claude') return <Claude />
+  if (page === 'claude') return <Claude conversation={id} />
   return <Matinee />
 }

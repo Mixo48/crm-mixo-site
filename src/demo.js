@@ -44,9 +44,11 @@ function donnees() {
     ],
     file_claude: [
     { id: 'f1', type: 'enrichir', boutique_id: 'b4', statut: 'en_cours', cree_le: h(0.05) },
-    { id: 'c1', type: 'chat', statut: 'fait', consigne: 'Combien de boutiques à contacter ?', resultat: { reponse: 'Tu as 2 boutiques à contacter : Vapote & Cie à Lyon et Le Nuage Bleu à Bordeaux.\n\nVapote & Cie a le meilleur score (82) : commence par elle.' }, cree_le: h(2) },
-    { id: 'c2', type: 'chat', statut: 'en_cours', consigne: 'Est-ce que Vape Story Lille est cliente ?', cree_le: h(0.01) },
+    { id: 'c1', type: 'chat', conversation_id: 'v1', statut: 'fait', consigne: 'Combien de boutiques à contacter ?', resultat: { reponse: 'Tu as 2 boutiques à contacter. Vapote & Cie a le meilleur score (82) : commence par elle.', fiches: ['b1', 'b2'], actions: [] }, cree_le: h(2) },
+    { id: 'c3', type: 'chat', conversation_id: 'v1', statut: 'fait', consigne: 'Passe Smoke Free 59 en intéressé et bloque Vape Story Lille.', resultat: { reponse: 'C’est fait.', fiches: ['b3'], actions: [{ ok: true, texte: 'Smoke Free 59 : statut « interesse »' }, { ok: false, texte: 'Vape Story Lille est déjà bloquée' }] }, cree_le: h(1) },
+    { id: 'c2', type: 'chat', conversation_id: 'v1', statut: 'en_cours', consigne: 'Est-ce que Vape Story Lille est cliente ?', cree_le: h(0.01) },
   ],
+  conversations: [{ id: 'v1', titre: 'Combien de boutiques à contacter ?', maj_le: h(0.01) }, { id: 'v2', titre: 'Relances de la semaine', maj_le: h(26) }],
   blocages: [
     { id: 'k1', type: 'client', email: 'info@vapestory.fr', nom: 'Vape Story', ville: 'Lille', raison: 'client Odoo (Vape Story)' },
     { id: 'k2', type: 'client', email: 'contact@kervape.fr', nom: 'Ker Vape', ville: 'Lamballe-Armor', raison: 'client Odoo (Ker Vape)' },
