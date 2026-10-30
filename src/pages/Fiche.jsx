@@ -33,6 +33,72 @@ function typeProbable(b, echanges, brouillons) {
   return 'relance_2'
 }
 
+const LIBELLES = { site_web: 'Site', email: 'E-mail', telephone: 'Téléphone', instagram: 'Instagram', contact_nom: 'Gérant',
+  adresse: 'Adresse', code_postal: 'Code postal', type: 'Type', nb_boutiques: 'Nombre de boutiques' }
+const date = (iso) => (iso ? new Date(`${iso}T12:00:00`).toLocaleDateString('fr-BE', { day: 'numeric', month: 'long', year: 'numeric' }) : null)
+
+function Entreprise({ i }) {
+  if (!i.siren && !i.tva && !i.date_creation) return null
+  const lignes = [
+    ['SIREN', i.siren], ['SIRET (siège)', i.siret], ['TVA intracommunautaire', i.tva],
+    ['Forme', i.forme_juridique], ['Création', date(i.date_creation)],
+    ['Dirigeant', i.dirigeants?.map((d) => `${d.nom}${d.qualite ? ` (${d.qualite.toLowerCase()})` : ''}`).join(', ')],
+    ['Code NAF', i.naf], ['Siège', i.siege_ailleurs || i.adresse_siege ? i.adresse_siege : null],
+  ].filter(([, v]) => v)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 16, borderTop: '1px solid var(--contour)' }}>
+      <div className="rangee" style={{ justifyContent: 'space-between' }}>
+        <h3 style={{ margin: 0, fontSize: 18, fontWeight: 500 }}>Entreprise</h3>
+        <span className="rangee" style={{ gap: 6 }}>
+          {i.etat && <span className={`statut ${i.etat === 'active' ? 'p-accent' : 'p-rouge'}`} style={{ height: 26, fontSize: 12 }}>{i.etat === 'active' ? 'Active' : 'Fermée'} au registre</span>}
+          {i.fiche_officielle && <a className="puce" href={i.fiche_officielle} target="_blank" rel="noreferrer noopener">Fiche officielle</a>}
+        </span>
+      </div>
+      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px 24px' }}>
+        {lignes.map(([k, v]) => (
+          <div key={k} style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+            <dt className="lbl">{k}</dt>
+            <dd style={{ margin: 0, fontSize: 15, overflowWrap: 'anywhere', fontVariantNumeric: 'tabular-nums' }}>{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
+// Ce que Claude a trouvé de différent : jamais écrit seul, Nathan choisit.
+function AVerifier({ b, onChange }) {
+  const [erreur, setErreur] = useState(null)
+  const liste = b.infos?.a_verifier || []
+  if (!liste.length) return null
+  const traiter = async (p, remplacer) => {
+    setErreur(null)
+    const infos = { ...b.infos, a_verifier: liste.filter((x) => x !== p) }
+    try {
+      await q(supabase.from('boutiques').update({ infos, ...(remplacer && { [p.champ]: p.propose }) }).eq('id', b.id))
+      onChange()
+    } catch (e) { setErreur(e) }
+  }
+  return (
+    <div className="avis attention" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <strong>Claude a trouvé autre chose ({liste.length})</strong>
+      {liste.map((p, n) => (
+        <div key={n} className="rangee" style={{ justifyContent: 'space-between', gap: 10 }}>
+          <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+            <b>{LIBELLES[p.champ] || p.champ}</b> : {String(p.actuel)} → <b>{String(p.propose)}</b>
+            {p.source && <> · <a href={p.source} target="_blank" rel="noreferrer noopener" style={{ color: 'inherit' }}>source</a></>}
+          </span>
+          <span className="rangee" style={{ gap: 6 }}>
+            <button className="btn accent" style={{ height: 32 }} onClick={() => traiter(p, true)}>Remplacer</button>
+            <button className="btn contour" style={{ height: 32 }} onClick={() => traiter(p, false)}>Ignorer</button>
+          </span>
+        </div>
+      ))}
+      <Erreur e={erreur} />
+    </div>
+  )
+}
+
 const titreEchange = (e) => {
   if (e.canal === 'systeme') return 'Claude'
   if (e.canal === 'note') return 'Note'
@@ -46,13 +112,19 @@ const texteEchange = (e) => {
 }
 
 function Infos({ b }) {
+  const i = b.infos || {}
   const lignes = [
     ['E-mail', b.email && <a href={`mailto:${b.email}`}>{b.email}</a>],
     ['Téléphone', b.telephone && <a href={`tel:${b.telephone.replace(/\s/g, '')}`}>{b.telephone}</a>],
     ['Site', b.site_web && <a href={b.site_web} target="_blank" rel="noreferrer noopener">{b.site_web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>],
     ['Instagram', b.instagram && <a href={`https://instagram.com/${b.instagram.replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '')}`} target="_blank" rel="noreferrer noopener">{b.instagram}</a>],
     ['Marques vendues', b.marques?.join(', ')],
-    ['Contact', b.contact_nom],
+    ['Facebook', i.facebook && <a href={i.facebook} target="_blank" rel="noreferrer noopener">{i.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, '').replace(/\/$/, '')}</a>],
+    ['TikTok', i.tiktok && <a href={i.tiktok.startsWith('@') ? `https://www.tiktok.com/${i.tiktok}` : i.tiktok} target="_blank" rel="noreferrer noopener">{i.tiktok.replace(/^https?:\/\/(www\.)?tiktok\.com\//, '')}</a>],
+    ['Google', (i.google_maps || i.google_note != null) && (
+      <span>{i.google_note != null && <b>{String(i.google_note).replace('.', ',')} ★</b>}{i.google_avis != null && ` · ${i.google_avis} avis`}{i.google_maps && <> · <a href={i.google_maps} target="_blank" rel="noreferrer noopener">voir la fiche</a></>}</span>)],
+    ['Horaires', i.horaires],
+    ['Gérant', b.contact_nom],
     ['Adresse', adresseComplete(b)],
     ['Angle', b.angle],
   ].filter(([, v]) => v)
@@ -117,7 +189,16 @@ export default function Fiche({ id }) {
   const { b, echanges, brouillons, demandes } = data
   if (!b) return <div className="page"><Entete actif="prospects" /><div className="vide">Cette boutique n’existe pas ou a été supprimée. <a href="#/prospects">Retour aux prospects</a></div></div>
 
-  const sources = sourcesDe(b.notes)
+  // Sources de la dernière vérification ; à défaut, celles notées par les anciennes versions.
+  const sources = b.infos?.sources?.length
+    ? Object.values(b.infos.sources.reduce((m, s) => {
+      let hote = s.url
+      try { hote = new URL(s.url).hostname.replace(/^www\./, '') } catch { /* adresse brute */ }
+      ;(m[s.url] ||= { url: s.url, hote, champs: [] }).champs.push(s.champ)
+      return m
+    }, {}))
+    : sourcesDe(b.notes)
+  const fermee = b.infos?.etat === 'fermée' || b.infos?.fermee_web
   const notes = notesSansSources(b.notes)
   const attente = demandes.filter((d) => EN_COURS.includes(d.statut))
   const echec = demandes.find((d) => d.statut === 'erreur' && !attente.some((a) => a.type === d.type))
@@ -182,11 +263,14 @@ export default function Fiche({ id }) {
           <section className="carte" style={{ padding: 24, gap: 18 }} aria-labelledby="t-infos">
             <div className="rangee" style={{ justifyContent: 'space-between', gap: 12 }}>
               <h2 id="t-infos" className="m">Ce que Claude a trouvé</h2>
-              {b.enrichi_le
+              {attente.some((d) => d.type === 'enrichir') ? <span className="travail lbl">Claude vérifie toute la fiche (1 à 4 min)…</span> : b.enrichi_le
                 ? <span className="puce" style={{ background: '#3B4A1E', color: 'var(--accent)' }}>Vérifiée le {jourCourt(b.enrichi_le)}</span>
                 : <span className="puce">Pas encore complétée</span>}
             </div>
+            {fermee && <div className="avis erreur">{b.infos?.etat === 'fermée' ? 'Entreprise fermée au registre officiel.' : 'Claude pense que la boutique est fermée (Google, site…).'} À vérifier avant de la contacter.</div>}
+            <AVerifier b={b} onChange={recharger} />
             <Infos b={b} />
+            <Entreprise i={b.infos || {}} />
             <div className="rangee">
               {!!sources.length && <span className="lbl">Sources</span>}
               {sources.map((s) => <a key={s.url} className="puce" href={s.url} target="_blank" rel="noreferrer noopener" title={s.champs.join(', ')}>{s.hote}</a>)}
@@ -200,8 +284,8 @@ export default function Fiche({ id }) {
             <div className="rangee">
               <button className="btn contour" onClick={() => setEdition(true)}>Modifier la fiche</button>
               {b.statut !== 'bloque' && !attente.some((d) => d.type === 'enrichir') && (
-                <button className="btn contour" onClick={enrichir} disabled={enCours}>
-                  {b.enrichi_le ? 'Revérifier avec Claude' : 'Compléter avec Claude'}
+                <button className="btn accent" onClick={enrichir} disabled={enCours} title="E-mail, réseaux, Google, gérant, SIREN, TVA, date de création… en un clic">
+                  {b.enrichi_le ? 'Tout revérifier avec Claude' : 'Tout trouver avec Claude'}
                 </button>
               )}
             </div>
