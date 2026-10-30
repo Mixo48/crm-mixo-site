@@ -10,6 +10,7 @@ import Calendrier from './pages/Calendrier.jsx'
 import Clients from './pages/Clients.jsx'
 import Claude from './pages/Claude.jsx'
 import Recherche from './pages/Recherche.jsx'
+import Carte from './pages/Carte.jsx'
 
 // Navigation par ancre (#/prospects…) : le site reste un simple dossier de fichiers statiques.
 function useRoute() {
@@ -44,6 +45,7 @@ export default function App() {
   if (page === 'calendrier') return <Calendrier />
   if (page === 'clients') return <Clients />
   if (page === 'recherche') return <Recherche />
+  if (page === 'carte') return <Carte />
   if (page === 'claude') return <Claude conversation={id} />
   return <Matinee />
 }

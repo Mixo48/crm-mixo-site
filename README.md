@@ -25,6 +25,7 @@ Il ne fait **ni IA, ni envoi d'e-mail**. Il écrit dans la base, et ce sont les 
 | Réponses | Toutes les réponses reçues, classées par Claude. |
 | Recherche | Trouver de nouvelles boutiques : zone, type, nombre, critères. Demande `recherche` dans `file_claude` ; le veilleur cherche sur le web et écarte ce qui est déjà dans le CRM ou bloqué. Boutons « Ajouter » et « Ajouter et enrichir » (source `Recherche Claude`). |
 | Calendrier | Vue du mois : actions prévues (`prochaine_action_le`), e-mails envoyés ou en file, réponses reçues ; actions en retard. |
+| Carte | Clients Odoo, ancien CRM et boutiques en prospection sur une carte (Leaflet, fond OpenStreetMap assombri), regroupés quand ils se chevauchent. Coordonnées à la ville, lues dans la table `geocodage` que le veilleur tient à jour. |
 | Clients | Les clients bloqués (import Odoo et ancien CRM), regroupés par boutique, avec recherche. |
 | Claude | Chat en conversations séparées (table `conversations`), message le plus récent en haut. Le message part dans `file_claude` (type `chat`, `conversation_id`) ; le veilleur répond, affiche des fiches en cartes et exécute les actions autorisées (statut, blocage, ajout ou correction de fiche, prochaine action, enrichissement, rédaction), vérifiées par Python. Jamais d'envoi, de validation d'e-mail, de suppression ni de déblocage d'un client. |
 

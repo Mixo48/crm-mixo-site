@@ -117,6 +117,14 @@ export const adresseComplete = (b) => {
   return [a, cpVille].filter(Boolean).join(', ')
 }
 
+// Même calcul que geo.cle() côté condor : « Saint-Étienne » et « ST ETIENNE » donnent « saint etienne ».
+export const cleVille = (ville) => {
+  if (!ville) return null
+  const v = ville.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/\bst\b/g, 'saint').replace(/\bste\b/g, 'sainte').replace(/[^a-z0-9]+/g, ' ').trim()
+  return v || null
+}
+
 export const emailValide = (e) => /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(e || '')
 
 // Score 0–100 → 1 à 5 pastilles allumées (0 si pas encore de score).

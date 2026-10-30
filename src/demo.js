@@ -52,6 +52,10 @@ function donnees() {
       { nom: 'Vap’Lille Centre', ville: 'Lille', pays: 'FR', type: 'vape_shop', instagram: '@vaplille', source_url: 'https://instagram.com', pourquoi: 'Instagram actif, met en avant les longfills.' } ] } },
     { id: 'r2', type: 'recherche', statut: 'en_cours', consigne: '{"zone":"Bruxelles","type":"vape_shop","nombre":5}', cree_le: h(0.02) },
   ],
+  geocodage: [
+    { cle: 'lyon 3e', lat: 45.75, lng: 4.85 }, { cle: 'lyon', lat: 45.76, lng: 4.84 }, { cle: 'bordeaux', lat: 44.84, lng: -0.58 },
+    { cle: 'lille', lat: 50.63, lng: 3.06 }, { cle: 'rennes', lat: 48.11, lng: -1.68 }, { cle: 'porto', lat: 41.15, lng: -8.61 },
+    { cle: 'lamballe armor', lat: 48.47, lng: -2.52 }, { cle: 'craponne', lat: 45.75, lng: 4.72 } ],
   conversations: [{ id: 'v1', titre: 'Combien de boutiques à contacter ?', maj_le: h(0.01) }, { id: 'v2', titre: 'Relances de la semaine', maj_le: h(26) }],
   blocages: [
     { id: 'k1', type: 'client', email: 'info@vapestory.fr', nom: 'Vape Story', ville: 'Lille', raison: 'client Odoo (Vape Story)' },
